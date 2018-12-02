@@ -2,6 +2,9 @@
   background: #dddddd;
   border: 1px solid;
 }
+.weather-card .date{
+  color: #00f;
+}
 .weather-card img {
   width: 100px;
   height: 100px;

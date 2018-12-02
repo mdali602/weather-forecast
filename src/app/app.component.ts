@@ -40,30 +40,36 @@ export class AppComponent implements OnInit {
     });
   }
 
+  getWeathers(arr) {
+    arr.map((obj, index) => {
+      let today = new Date();
+      obj.date = new Date();
+      obj.date.setDate(today.getDate() + index);
+      obj.weather.map(w => {
+        if(w.description.toLowerCase().indexOf('cloud') !== -1) {
+          obj.imgUrl = 'cloud';
+        } else if(w.description.toLowerCase().indexOf('rain') !== -1) {
+          obj.imgUrl = 'rain';
+        } else if(w.description.toLowerCase().indexOf('clear') !== -1) {
+          obj.imgUrl = 'clear_sky';
+        } else {
+          obj.imgUrl = 'clear_sky';//use default 
+        }
+      });
+    });
+    return arr;
+  }
   //get weatherForcast using latitude and longitude
   getWeatherByLatLng(lat, lng) {
     this.spinner.show();
     this.weatherService.getWeatherByLatLon(lat, lng).subscribe((res) => {
       this.weatherForecasts.length = 0;
       let list = res && res['list'];
-      list.map((obj) => {
-        obj.date = new Date(obj.dt_txt);
-        obj.weather.map(w => {
-          if(w.description.toLowerCase().indexOf('cloud') !== -1) {
-            obj.imgUrl = 'cloud';
-          } else if(w.description.toLowerCase().indexOf('rain') !== -1) {
-            obj.imgUrl = 'rain';
-          } else if(w.description.toLowerCase().indexOf('clear') !== -1) {
-            obj.imgUrl = 'clear_sky';
-          } else {
-            obj.imgUrl = 'clear_sky';//use default 
-          }
-        });
-      });
-      this.weatherForecasts = [...list];
+      this.weatherForecasts = this.getWeathers(list);
       this.spinner.hide();
   }, (err) => {
       console.log(err, 'Error');
+      this.weatherForecasts.length = 0;
       this.spinner.hide();
     });
   }
@@ -74,23 +80,12 @@ export class AppComponent implements OnInit {
     this.spinner.show();
     this.weatherService.getWeatherByCityName(cityName).subscribe((res) => {
       this.weatherForecasts.length = 0;
-      let list = res && res['list'];
-      list.map((obj) => {
-        obj.date = new Date(obj.dt_txt);
-        obj.weather.map(w => {
-          if(w.description.toLowerCase().indexOf('cloud') !== -1) {
-            obj.imgUrl = 'cloud';
-          } else if(w.description.toLowerCase().indexOf('rain') !== -1) {
-            obj.imgUrl = 'rain';
-          } else if(w.description.toLowerCase().indexOf('clear') !== -1) {
-            obj.imgUrl = 'clear_sky';
-          }
-        });
-      });
-      this.weatherForecasts = [...list];
+      let list = res && res['list'];      
+      this.weatherForecasts = this.getWeathers(list);
       this.spinner.hide();
   }, (err) => {
       console.log(err, 'Error');
+      this.weatherForecasts.length = 0;
       this.spinner.hide();
     });
   }

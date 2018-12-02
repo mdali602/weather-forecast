@@ -8,16 +8,19 @@
 
   <div class="row">
 
+      <div class="col" *ngIf="weatherForecasts.length==0">
+        <h3>Please Enter Location / City </h3>
+      </div>
       <div class="col" *ngFor="let weatherForecast of weatherForecasts">
       
           <div class="card weather-card"><!--  style="width: 18rem;" -->
             <div class="card-body">
               <!-- <h5 class="card-title">Card title</h5> -->
-              <h5>
-                <b>{{ weatherForecast?.date | date: 'd MMMM' }}</b> {{weatherForecast.imgUrl}} <br>
+              <h5 class="date">
+                <b>{{ weatherForecast?.date | date: 'd MMMM' }}</b> <br>
               </h5>
     
-              <img class="card-img-top" [src]="'assets/'+weatherForecast.imgUrl+'.png'" alt="Card image cap">
+              <img class="card-img-top" [src]="'assets/'+weatherForecast?.imgUrl+'.png'" alt="Card image cap">
               <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
               <p class="card-text">{{ weatherForecast?.main?.temp_max }} / {{ weatherForecast?.main?.temp_min }}</p>
               <p class="card-text">Humidity: {{ weatherForecast?.main?.humidity }} %</p>
