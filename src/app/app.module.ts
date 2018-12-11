@@ -18,7 +18,7 @@ import { WeatherService } from './weatherService';
     BrowserModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc',
+      apiKey: 'AIzaSyDpLinSwELhfBinHNdvDshxofmr9nF_Ank',
       libraries: ['places']
     }),
     NgxSpinnerModule
